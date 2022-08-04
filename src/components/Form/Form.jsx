@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
 import styles from './Form.module.css';
+import { addUser } from 'redux/Contacts/contacts-actions';
 
 export class Form extends Component {
   static propTypes = {
@@ -18,6 +19,8 @@ export class Form extends Component {
 
   handleSubmit = evt => {
     evt.preventDefault();
+
+    this.props.onAddContact();
     const id = nanoid();
     const user = { ...this.state, id };
     this.props.addUserData(user);
@@ -67,3 +70,12 @@ export class Form extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  const { items } = state.cotacts;
+};
+
+const mapDispatchToProps = dispatch => ({
+  onAddContact: user => dispatch(addUser(user)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Form);
